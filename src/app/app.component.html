@@ -1,3 +1,10 @@
-<div>
+<mat-toolbar style="height: 2rem;">
+  <span>
+    <fa-icon [icon]="faCat"></fa-icon> VapeCat
+  </span>
+  <span style="flex:1"></span>
+  <app-frame-controller></app-frame-controller>
+</mat-toolbar>
+<div style="height:auto;">
   <router-outlet></router-outlet>
 </div>

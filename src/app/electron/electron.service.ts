@@ -19,7 +19,22 @@ export class ElectronService {
   get isElectron(): boolean {
     return !!(window && window.process && window.process.type);
   }
-
+  quit() {
+    var window = this.remote.getCurrentWindow();
+    window.close();
+  }
+  maximize() {
+    var window = this.remote.getCurrentWindow();
+    if (!window.isMaximized()) {
+      window.maximize();
+    } else {
+      window.unmaximize();
+    }
+  }
+  minimize() {
+    var window = this.remote.getCurrentWindow();
+    window.minimize();
+  }
   constructor() {
     // Conditional imports
     if (this.isElectron) {
@@ -31,6 +46,7 @@ export class ElectronService {
 
       this.childProcess = window.require('child_process');
       this.fs = window.require('fs');
+
     }
   }
 }

@@ -8,24 +8,35 @@ import { HomeComponent } from './views/home/home.component';
 import { LiquidCalcComponent } from './components/liquid-calc/liquid-calc.component';
 import { CoilCalcComponent } from './components/coil-calc/coil-calc.component';
 import { AromaManagerComponent } from './components/aroma-manager/aroma-manager.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 //Material
-import {MatCardModule} from '@angular/material/card';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { SettingsComponent } from './views/settings/settings.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { FrameControllerComponent } from './components/frame-controller/frame-controller.component';
+import { MatButtonModule } from '@angular/material/button';
+
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LiquidCalcComponent,
     CoilCalcComponent,
-    AromaManagerComponent
+    AromaManagerComponent,
+    SettingsComponent,
+    FrameControllerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    MatToolbarModule,
+    MatButtonModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
