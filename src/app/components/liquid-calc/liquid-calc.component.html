@@ -1,1 +1,56 @@
-<p>liquid-calc works!</p>
+<div style="display: flex; height: 100%;">
+  <div style="flex: 1; padding-right: 1rem; display: flex; align-items: center;">
+    <div style="padding-bottom: 1rem; padding-right: 0.5rem; min-width: 8rem;">
+      <table>
+        <tr>
+          <td>Base:</td>
+          <td>{{liquidMix?.base}}ml</td>
+        </tr>
+        <tr *ngIf="liquidMix?.nicotin">
+          <td>Nicotin:</td>
+          <td>{{liquidMix?.nicotin}}ml</td>
+        </tr>
+        <tr>
+          <td>Aroma:</td>
+          <td>{{liquidMix?.aroma}}ml</td>
+        </tr>
+      </table>
+    </div>
+    <div #bottle
+      style=" background-color: black; width: 2rem; height: 100%; border-radius: 0.5rem; position: relative; overflow: hidden; ">
+      <div #base style="background-color: rgba(144, 238, 144, 0.5); text-align: center;">
+      </div>
+      <div #nicotin style="background-color: rgba(0, 255, 255, 0.5); text-align: center; ">
+      </div>
+      <div #aroma style="background-color: rgba(255, 0, 255, 0.5); text-align: center;">
+      </div>
+    </div>
+  </div>
+  <div style=" flex: 1;display: flex; padding-right: 0.5rem; flex-direction: column; justify-content: center;">
+
+    <mat-form-field>
+      <mat-label>Bottle-Size</mat-label>
+      <input [(ngModel)]="bottleSize" (ngModelChange)="updateLiquid()" matInput type="number" placeholder="Ex. Pizza"
+        value="Sushi">
+      <p matSuffix>ml</p>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Aroma</mat-label>
+      <input [(ngModel)]="aromaPercent" (ngModelChange)="updateLiquid()" matInput type="number" placeholder="Ex. Pizza"
+        value="Sushi">
+      <p matSuffix>%</p>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nicotin in Liquid</mat-label>
+      <input [(ngModel)]="liquidStrength" (ngModelChange)="updateLiquid()" matInput type="number"
+        placeholder="Ex. Pizza" value="Sushi">
+      <p matSuffix>mg/ml</p>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nicotin in Shot</mat-label>
+      <input [(ngModel)]="shotStrength" (ngModelChange)="updateLiquid()" matInput type="number" placeholder="Ex. Pizza"
+        value="Sushi">
+      <p matSuffix>mg/ml</p>
+    </mat-form-field>
+  </div>
+</div>

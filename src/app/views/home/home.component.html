@@ -1,15 +1,29 @@
 <div style="height: 100%; width: 100%; display: flex;">
   <div style="flex: 1; display: flex; flex-direction: column;">
-    <mat-card style="flex: 1;">
-      fadfdas
+    <mat-card style="flex: 1; display: flex; flex-direction: column;min-height: 0px;">
+      <mat-card-header>
+        <mat-card-title>
+          Aromas
+        </mat-card-title>
+        <mat-card-subtitle>
+          Stuff in house!
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content style="flex: 1;min-height: 0px; ">
+        <app-aroma-manager></app-aroma-manager>
+      </mat-card-content>
+      <mat-card-actions style="display: flex;">
+        <div style="flex:1"></div>
+        <button mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
+          <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+      </mat-card-actions>
     </mat-card>
   </div>
-  <div style="flex: 1; display: flex; flex-direction: column;">
-    <mat-card style="flex:1;">
+  <div style="display: flex; flex-direction: column;">
+    <mat-card style="flex:1; max-height: 20rem;">
       <app-liquid-calc></app-liquid-calc>
     </mat-card>
-    <mat-card>
-      <app-coil-calc></app-coil-calc>
-    </mat-card>
+
   </div>
 </div>

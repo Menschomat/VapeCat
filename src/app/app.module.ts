@@ -9,14 +9,19 @@ import { LiquidCalcComponent } from './components/liquid-calc/liquid-calc.compon
 import { CoilCalcComponent } from './components/coil-calc/coil-calc.component';
 import { AromaManagerComponent } from './components/aroma-manager/aroma-manager.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
+import { FrameControllerComponent } from './components/frame-controller/frame-controller.component';
+import { FormsModule } from '@angular/forms'
 //Material
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { SettingsComponent } from './views/settings/settings.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { FrameControllerComponent } from './components/frame-controller/frame-controller.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -32,10 +37,16 @@ import { MatButtonModule } from '@angular/material/button';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
     MatCardModule,
     MatGridListModule,
     MatToolbarModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatSliderModule,
+    MatTableModule,
     FontAwesomeModule
   ],
   providers: [],
