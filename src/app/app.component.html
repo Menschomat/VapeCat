@@ -1,4 +1,4 @@
-<mat-toolbar style="height: 2rem;">
+<mat-toolbar style="height: 2rem; padding-right: 0; overflow: hidden;">
   <span style="flex:1" *ngIf="isMac"></span>
   <span>
     <fa-icon [icon]="faCat"></fa-icon> VapeCat
@@ -6,6 +6,23 @@
   <span style="flex:1" *ngIf="!isMac"></span>
   <app-frame-controller *ngIf="!isMac"></app-frame-controller>
 </mat-toolbar>
-<div style="height: calc(100% - 2rem); overflow: auto;">
+<mat-toolbar style="height: 2rem; background-color: black; overflow: hidden;">
+  <span style="flex: 1;"></span>
+  <button mat-button [matMenuTriggerFor]="settings">
+    <fa-icon [icon]="faCog"></fa-icon>&nbsp;
+    <span>Settings</span>
+  </button>
+  <mat-menu #settings="matMenu">
+    <button mat-menu-item>
+      <fa-icon [icon]="faFlask"></fa-icon>&nbsp;
+      <span>Aromas</span>
+    </button>
+    <button mat-menu-item>
+      <fa-icon [icon]="faQuest"></fa-icon>&nbsp;
+      <span>About</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+<div style="height: calc(100% - 4rem); overflow: auto;">
   <router-outlet></router-outlet>
 </div>

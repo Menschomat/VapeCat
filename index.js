@@ -1,6 +1,7 @@
 const {
   app,
-  BrowserWindow
+  BrowserWindow,
+  globalShortcut
 } = require('electron')
 const url = require("url");
 const path = require("path");
@@ -29,7 +30,12 @@ function createWindow() {
   mainWindow.on('closed', function () {
     mainWindow = null
   })
+  globalShortcut.register('CommandOrControl+R', () => {
+    console.log('CommandOrControl+R is pressed');
+    mainWindow.loadURL('http://localhost:4200');
+  })
 }
+
 
 app.on('ready', createWindow)
 
