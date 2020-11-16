@@ -10,14 +10,36 @@ import * as fs from 'fs';
   providedIn: 'root'
 })
 export class ElectronService {
+  public platforms = {
+    WINDOWS: 'WINDOWS',
+    MAC: 'MAC',
+    LINUX: 'LINUX',
+    SUN: 'SUN',
+    OPENBSD: 'OPENBSD',
+    ANDROID: 'ANDROID',
+    AIX: 'AIX',
+  };
+  platformsNames = {
+    win32: this.platforms.WINDOWS,
+    darwin: this.platforms.MAC,
+    linux: this.platforms.LINUX,
+    sunos: this.platforms.SUN,
+    openbsd: this.platforms.OPENBSD,
+    android: this.platforms.ANDROID,
+    aix: this.platforms.AIX,
+  };
   ipcRenderer: typeof ipcRenderer;
   webFrame: typeof webFrame;
   remote: typeof remote;
   childProcess: typeof childProcess;
   fs: typeof fs;
+  os: any;
 
   get isElectron(): boolean {
     return !!(window && window.process && window.process.type);
+  }
+  get platform(): string {
+    return this.platformsNames[this.os.platform()];
   }
   quit() {
     var window = this.remote.getCurrentWindow();
@@ -46,6 +68,8 @@ export class ElectronService {
 
       this.childProcess = window.require('child_process');
       this.fs = window.require('fs');
+      this.os = window.require('os');
+
 
     }
   }

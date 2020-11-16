@@ -11,7 +11,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    //titleBarStyle: 'hidden',
+    titleBarStyle: 'hidden',
     frame: false,
     webPreferences: {
       nodeIntegration: true,
@@ -24,7 +24,7 @@ function createWindow() {
   mainWindow.loadURL('http://localhost:4200');
   mainWindow.removeMenu()
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', function () {
     mainWindow = null

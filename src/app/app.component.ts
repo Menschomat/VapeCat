@@ -8,8 +8,11 @@ import { ElectronService } from './electron/electron.service';
 })
 export class AppComponent {
   title = 'VapeCat';
+  isMac = false;
   faCat = faCat;
   constructor(private electron: ElectronService) {
+    console.log(this.electron.platform);
+    this.isMac = (this.electron.platform === electron.platforms.MAC);
   }
 
 }

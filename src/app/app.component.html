@@ -1,9 +1,10 @@
 <mat-toolbar style="height: 2rem;">
+  <span style="flex:1" *ngIf="isMac"></span>
   <span>
     <fa-icon [icon]="faCat"></fa-icon> VapeCat
   </span>
-  <span style="flex:1"></span>
-  <app-frame-controller></app-frame-controller>
+  <span style="flex:1" *ngIf="!isMac"></span>
+  <app-frame-controller *ngIf="!isMac"></app-frame-controller>
 </mat-toolbar>
 <div style="height: calc(100% - 2rem); overflow: auto;">
   <router-outlet></router-outlet>
