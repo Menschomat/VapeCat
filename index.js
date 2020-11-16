@@ -22,7 +22,7 @@ function createWindow() {
 
 
 
-  mainWindow.loadURL('http://localhost:4200');
+  mainWindow.loadURL('http://localhost:4200/');
   mainWindow.removeMenu()
   // Open the DevTools.
   mainWindow.webContents.openDevTools()

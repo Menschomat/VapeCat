@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "serve": "ng serve",
-    "electron": "wait-on http://localhost:4200 && electron .",
+    "electron": "wait-on http-get://localhost:4200/ && electron .",
     "prestart": "npm run clean",
     "start": "concurrently -k \"ng serve\" \"npm run electron\"",
     "build": "ng build",

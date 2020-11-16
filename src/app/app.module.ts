@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatSliderModule,
     MatTableModule,
     MatMenuModule,
+    MatDialogModule,
     FontAwesomeModule
   ],
   providers: [],

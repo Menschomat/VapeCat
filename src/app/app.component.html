@@ -13,7 +13,7 @@
     <span>Settings</span>
   </button>
   <mat-menu #settings="matMenu">
-    <button mat-menu-item>
+    <button mat-menu-item (click)="openSettings()">
       <fa-icon [icon]="faFlask"></fa-icon>&nbsp;
       <span>Aromas</span>
     </button>
