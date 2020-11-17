@@ -24,6 +24,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NewAromaComponent } from './views/settings/components/new-aroma/new-aroma.component';
+import { NewProducerComponent } from './views/settings/components/new-producer/new-producer.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     CoilCalcComponent,
     AromaManagerComponent,
     SettingsComponent,
-    FrameControllerComponent
+    FrameControllerComponent,
+    NewAromaComponent,
+    NewProducerComponent
   ],
   imports: [
     BrowserModule,

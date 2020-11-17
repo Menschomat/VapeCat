@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faSquare, faWindowClose, faWindowMaximize, faWindowMinimize } from '@fortawesome/free-regular-svg-icons';
 import { faMinus, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { ElectronService } from 'src/app/electron/electron.service';
+import { ElectronService } from '../../electron/electron.service';
 
 @Component({
   selector: 'app-frame-controller',

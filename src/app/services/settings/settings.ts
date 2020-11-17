@@ -1,5 +1,4 @@
 import * as path from 'path';
-import { environment } from '../../../environments/environment';
 
 export class Settings {
 
@@ -15,14 +14,8 @@ export class Settings {
 
     private static getPaths(remote) {
 
-        if(environment.production){
-            this.dataSubFolder = '/';
-            Settings.appPath = remote.app.getPath('userData');
-        } else {
-            // return folder where app is running
-            this.dataSubFolder = 'dist/assets/data';
-            Settings.appPath = remote.app.getAppPath();
-        }
+        this.dataSubFolder = '/';
+        Settings.appPath = remote.app.getPath('userData');
 
         Settings.dbFolder = path.join(Settings.appPath, Settings.dataSubFolder);
         Settings.dbPath = path.join(Settings.dbFolder, this.dbName)

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Connection, ConnectionOptions, createConnection } from 'typeorm';
 import { ElectronService } from '../electron/electron.service';
 import { Aroma, AromaBottle, Producer } from '../model/model';
@@ -18,7 +18,22 @@ export class DatabaseService {
       entities: [Producer, Aroma, AromaBottle],
       synchronize: true,
       logging: 'all',
+      logger:'simple-console'
     };
     this.connection = createConnection(this.options);
+  }
+  
+  insertProducer(name: string) {
+
+    this.connection.then(c => {
+  
+      c.createQueryBuilder()
+        .insert()
+        .into(Producer)
+        .values({
+          name: name
+        })
+        .execute();
+    });
   }
 }

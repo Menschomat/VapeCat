@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { Producer } from 'src/app/model/model';
-import { DatabaseService } from 'src/app/services/database.service';
-import { Connection, getRepository } from 'typeorm';
-
+import { Router } from '@angular/router';
+import { faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Aroma, Producer } from '../..//model/model';
+import { DatabaseService } from '../..//services/database.service';
+import { Connection, getConnection, getRepository } from 'typeorm';
+import { from, Observable } from 'rxjs';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -13,31 +13,57 @@ import { Connection, getRepository } from 'typeorm';
 
 export class SettingsComponent implements OnInit {
   faTimes = faTimes;
-  connection: Connection;
-  producers: Promise<Producer[]>;
-  constructor(private db: DatabaseService, public dialogRef: MatDialogRef<SettingsComponent>,) { }
+  faPlus = faPlus;
+  faTrash = faTrash;
+  producers: Observable<Producer[]>
+  aromas: Observable<Aroma[]>
+  producerCols: string[] = ['id', 'name', 'delete'];
+  constructor(private db: DatabaseService, private router: Router) { }
 
   ngOnInit(): void {
     this.updateProducers();
   }
   close() {
-    this.db.connection.then(c => {
-      c.createQueryBuilder()
-        .insert()
-        .into(Producer)
-        .values({
-          name: "Inavera"
-        })
-        .execute();
-      this.connection = c;
+    this.router.navigateByUrl("/home")
+  }
+  addNewProducer(name: string) {
+    getConnection().createQueryBuilder()
+      .insert()
+      .into(Producer)
+      .values({
+        name: name
+      })
+      .execute().then(() => this.updateProducers());
+  }
+  addNewAroma(name: string, mix: number, producer: Producer) {
+    getConnection().createQueryBuilder()
+      .insert()
+      .into(Aroma)
+      .values({
+        name: name,
+        aromaPercent: mix,
+        producer: producer
+      })
+      .execute().then(() => this.updateAromas());
+  }
 
-    });
-    this.dialogRef.close();
+  deleteProducter(id: number) {
+    getConnection()
+      .createQueryBuilder()
+      .delete()
+      .from(Producer)
+      .where("id = :id", { id: id })
+      .execute().then(() => this.updateProducers());;
   }
   updateProducers(): void {
-    this.producers = getRepository(Producer)
+    this.producers = from(getRepository(Producer)
       .createQueryBuilder("producer")
-      .getMany();
+      .getMany());
+  }
+  updateAromas(): void {
+    this.aromas = from(getRepository(Aroma)
+      .createQueryBuilder("aroma")
+      .getMany());
   }
 
 }

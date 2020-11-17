@@ -12,9 +12,7 @@ export class AppComponent {
   title = 'VapeCat';
   isMac = false;
   faCat = faCat;
-  faCog = faCog;
-  faQuest = faQuestion;
-  faFlask = faFlask;
+
   constructor(private electron: ElectronService, public dialog: MatDialog) {
     console.log(this.electron.platform);
     this.isMac = (this.electron.platform === electron.platforms.MAC);
