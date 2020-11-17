@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Connection, ConnectionOptions, createConnection } from 'typeorm';
 import { ElectronService } from '../electron/electron.service';
-import { Producer } from '../model/model';
+import { Aroma, AromaBottle, Producer } from '../model/model';
 import { Settings } from './settings/settings';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class DatabaseService {
     this.options = {
       type: 'sqlite',
       database: Settings.dbPath,
-      entities: [Producer],
+      entities: [Producer, Aroma, AromaBottle],
       synchronize: true,
       logging: 'all',
     };

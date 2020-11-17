@@ -1,3 +1,4 @@
-<button mat-mini-fab color="accent" (click)="close()">
+<button mat-mini-fab color="primary" (click)="close()">
   <fa-icon [icon]="faTimes"></fa-icon>
 </button>
+<span *ngFor="let item of producers | async">{{item.name}}</span>
