@@ -10,7 +10,7 @@ import { CoilCalcComponent } from './components/coil-calc/coil-calc.component';
 import { AromaManagerComponent } from './components/aroma-manager/aroma-manager.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FrameControllerComponent } from './components/frame-controller/frame-controller.component';
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 //Material
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -44,6 +44,7 @@ import { NewProducerComponent } from './views/settings/components/new-producer/n
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     MatCardModule,
     MatGridListModule,
     MatToolbarModule,

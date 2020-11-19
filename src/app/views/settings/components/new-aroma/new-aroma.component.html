@@ -1,1 +1,28 @@
-<p>new-aroma works!</p>
+<h1 mat-dialog-title>New Aroma</h1>
+<div mat-dialog-content>
+  <form id="myform" class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+    <mat-form-field color="accent" style="width: 100%;">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+    <mat-form-field color="accent" style="width: 100%;">
+      <mat-label>Producer</mat-label>
+      <mat-select formControlName="producer">
+        <mat-option *ngFor="let producer of data |async" [value]="producer">
+          {{producer.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field color="accent" style="width: 100%;">
+      <mat-label>Mix</mat-label>
+      <input type="number" matInput formControlName="mix">
+      <p matSuffix>%</p>
+    </mat-form-field>
+
+  </form>
+</div>
+<div mat-dialog-actions>
+  <div style="flex: 1;"></div>
+  <button mat-raised-button color="accent" type="submit" form="myform" [disabled]="!form.valid">Add</button>
+  <button mat-stroked-button color="warn" mat-dialog-close>Cancel</button>
+</div>

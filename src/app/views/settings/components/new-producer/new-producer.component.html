@@ -1,1 +1,13 @@
-<p>new-producer works!</p>
+<h1 mat-dialog-title>New Producer</h1>
+<div mat-dialog-content>
+  <mat-form-field color="accent" style="width: 100%;">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="name">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <div style="flex: 1;"></div>
+  <button mat-raised-button [mat-dialog-close]="name" color="accent"
+    [disabled]="!name || name.length === 0">Add</button>
+  <button mat-stroked-button color="warn" mat-dialog-close>Cancel</button>
+</div>

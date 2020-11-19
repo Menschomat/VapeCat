@@ -38,6 +38,9 @@ export class AromaBottle extends BaseEntity {
   id: number;
 
   @Column()
+  price:number;
+
+  @Column()
   bottleSize: number;
 
   @Column()
