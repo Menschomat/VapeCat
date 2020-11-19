@@ -1,1 +1,33 @@
-<p>new-bottle works!</p>
+<h1 mat-dialog-title>New Bottle</h1>
+<div mat-dialog-content>
+  <form id="myform" class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+    <mat-form-field color="accent" style="width: 100%;">
+      <mat-label>Aroma</mat-label>
+      <mat-select formControlName="aroma">
+        <mat-option *ngFor="let aroma of data " [value]="aroma">
+          {{aroma.producer.name}} {{aroma.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field color="accent" style="width: 100%;">
+      <mat-label>Price</mat-label>
+      <input type="number" matInput formControlName="price">
+      <p matSuffix>€</p>
+    </mat-form-field>
+    <mat-form-field color="accent" style="width: 100%;">
+      <mat-label>Bottle-Size</mat-label>
+      <input type="number" matInput formControlName="bottleSize">
+      <p matSuffix>ml</p>
+    </mat-form-field>
+    <mat-form-field color="accent" style="width: 100%;">
+      <mat-label>Bottle-Level</mat-label>
+      <input type="number" matInput formControlName="liquidLevel">
+      <p matSuffix>ml</p>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <div style="flex: 1;"></div>
+  <button mat-raised-button color="accent" type="submit" form="myform" [disabled]="!form.valid">Add</button>
+  <button mat-stroked-button color="warn" mat-dialog-close>Cancel</button>
+</div>

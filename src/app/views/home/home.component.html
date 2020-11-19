@@ -21,11 +21,11 @@
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content style="flex: 1;min-height: 0px; ">
-        <app-aroma-manager></app-aroma-manager>
+        <app-aroma-manager *ngIf="bottles" [bottles]="bottles" (delete)="deleteBottle($event)"></app-aroma-manager>
       </mat-card-content>
       <mat-card-actions style="display: flex;">
         <div style="flex:1"></div>
-        <button mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
+        <button mat-mini-fab color="accent" (click)="openNewBottleDialog()">
           <fa-icon [icon]="faPlus"></fa-icon>
         </button>
       </mat-card-actions>

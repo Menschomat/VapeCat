@@ -22,16 +22,19 @@ export class SettingsComponent implements OnInit {
   producers: Producer[];
   aromas: Aroma[];
   producerRelated: number[];
-  aromaCols: string[] = ['id', 'name', 'aromaPercent', 'producer', 'delete'];
-  producerCols: string[] = ['id', 'name', 'delete'];
+  aromaRelated: number[];
+  aromaCols: string[] = ['name', 'aromaPercent', 'producer', 'delete'];
+  producerCols: string[] = ['name', 'delete'];
   constructor(private dialog: MatDialog, private router: Router, private db: DatabaseService) { }
 
   ngOnInit(): void {
     this.db.getProducerRelated.subscribe(nums => this.producerRelated = nums);
     this.db.getAromas.subscribe(aromas => this.aromas = aromas);
     this.db.getProducers.subscribe(producers => this.producers = producers);
+    this.db.getAromasRelated.subscribe(rel => this.aromaRelated = rel);
     this.db.updateAromas();
     this.db.updateProducers();
+    this.db.updateAromaBottles();
 
   }
 

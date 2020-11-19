@@ -11,9 +11,13 @@ import { Settings } from './settings/settings';
 export class DatabaseService {
   private producers: Subject<Producer[]> = new Subject();
   private aromas: Subject<Aroma[]> = new Subject();
+  private aromaBottles: Subject<AromaBottle[]> = new Subject();
   private producerRelated: Subject<number[]> = new Subject();
+  private aromasRelated: Subject<number[]> = new Subject();
+
   public connection: Promise<Connection>;
   private readonly options: ConnectionOptions;
+
   constructor(private electron: ElectronService) {
     Settings.initialize(electron.remote);
     this.options = {
@@ -33,63 +37,123 @@ export class DatabaseService {
   get getProducers(): Observable<Producer[]> {
     return this.producers;
   }
-  get getAromas(): Observable<Aroma[]> {
-    return this.aromas;
-  }
   get getProducerRelated(): Subject<number[]> {
     return this.producerRelated;
   }
+  get getAromas(): Observable<Aroma[]> {
+    return this.aromas;
+  }
+  get getAromasRelated(): Subject<number[]> {
+    return this.aromasRelated;
+  }
+  get getAromaBottles(): Observable<AromaBottle[]> {
+    return this.aromaBottles;
+  }
+
   addNewProducer(name: string) {
-    getConnection().createQueryBuilder()
-      .insert()
-      .into(Producer)
-      .values({
-        name: name
-      })
-      .execute().then(() => this.updateProducers());
+    this.connection.then(c => {
+      c.createQueryBuilder()
+        .insert()
+        .into(Producer)
+        .values({
+          name: name
+        })
+        .execute().then(() => this.updateProducers());
+    });
   }
   addNewAroma(name: string, mix: number, producer: Producer) {
-    getConnection().createQueryBuilder()
-      .insert()
-      .into(Aroma)
-      .values({
-        name: name,
-        aromaPercent: mix,
-        producer: producer
-      })
-      .execute().then(() => this.updateAromas());
+    this.connection.then(c => {
+      c.createQueryBuilder()
+        .insert()
+        .into(Aroma)
+        .values({
+          name: name,
+          aromaPercent: mix,
+          producer: producer
+        })
+        .execute().then(() => this.updateAromas());
+    });
+  }
+  addNewAromaBottle(price: number, liquidLevel: number, bottleSize: number, aroma: Aroma) {
+    this.connection.then(c => {
+      c.createQueryBuilder()
+        .insert()
+        .into(AromaBottle)
+        .values({
+          price, liquidLevel, bottleSize, aroma
+        })
+        .execute().then(() => this.updateAromaBottles());
+    });
+  }
+  deleteAromaBottle(id: number) {
+    this.connection.then(c => {
+      c.createQueryBuilder()
+        .delete()
+        .from(AromaBottle)
+        .where("id = :id", { id: id })
+        .execute().then(() => this.updateAromaBottles());
+    });
   }
   deleteAroma(id: number) {
-    getConnection()
-      .createQueryBuilder()
-      .delete()
-      .from(Aroma)
-      .where("id = :id", { id: id })
-      .execute().then(() => this.updateAromas());;
+    this.connection.then(c => {
+      c.createQueryBuilder()
+        .delete()
+        .from(Aroma)
+        .where("id = :id", { id: id })
+        .execute().then(() => this.updateAromas());
+    });
   }
   deleteProducter(id: number) {
-    getConnection()
-      .createQueryBuilder()
-      .delete()
-      .from(Producer)
-      .where("id = :id", { id: id })
-      .execute().then(() => this.updateProducers());;
+    this.connection.then(c => {
+      c.createQueryBuilder()
+        .delete()
+        .from(Producer)
+        .where("id = :id", { id: id })
+        .execute().then(() => this.updateProducers());
+    });
   }
   updateProducers(): void {
-    getRepository(Producer)
-      .createQueryBuilder("producer")
-      .getMany().then(pro => {
-        this.producers.next(pro);
-      });
+    this.connection.then(c => {
+      c.getRepository(Producer)
+        .createQueryBuilder("producer")
+        .getMany().then(pro => {
+          this.producers.next(pro);
+        });
+    })
+  }
+  updateAromaBottles(): void {
+    this.connection.then(c => {
+      c.getRepository(AromaBottle)
+        .find({
+          join: {
+            alias: "aroma_bottle",
+            leftJoinAndSelect: {
+              "aroma": "aroma_bottle.aroma",
+              "producer": "aroma.producer"
+            }
+          }
+        })
+        .then(ars => {
+          this.aromaBottles.next(ars);
+          this.checkRelationForAromas(ars);
+        });
+    });
   }
   updateAromas(): void {
-    getRepository(Aroma).find({ relations: ["producer"] }).then(ars => { this.aromas.next(ars); this.checkRelationForProducer(ars); });
-
+    this.connection.then(c => {
+      c.getRepository(Aroma)
+        .find({ relations: ["producer"] })
+        .then(ars => {
+          this.aromas.next(ars);
+          this.checkRelationForProducer(ars);
+        });
+    });
   }
   checkRelationForProducer(ars: Aroma[]) {
-    this.aromas.subscribe(aromas => {
-      this.producerRelated.next(Array.from(new Set(aromas.map(arom => arom.producer.id))));
-    })
+    this.producerRelated.next(Array.from(new Set(ars.map(arom => arom.producer.id))));
+  }
+  checkRelationForAromas(ars: AromaBottle[]) {
+    this.aromasRelated.next(Array.from(new Set(ars.map(arom => arom.aroma.id))));
   }
 
 }

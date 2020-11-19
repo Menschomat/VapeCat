@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { DecimalPipe } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,6 +28,9 @@ import { NewAromaComponent } from './views/settings/components/new-aroma/new-aro
 import { NewProducerComponent } from './views/settings/components/new-producer/new-producer.component';
 import { NewBottleComponent } from './views/home/components/new-bottle/new-bottle.component';
 
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+registerLocaleData(localeDe);
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,7 +63,7 @@ import { NewBottleComponent } from './views/home/components/new-bottle/new-bottl
     MatDialogModule,
     FontAwesomeModule
   ],
-  providers: [],
+  providers: [DecimalPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

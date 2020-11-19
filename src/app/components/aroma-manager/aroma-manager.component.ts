@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { from, Observable } from 'rxjs';
 import { getRepository } from 'typeorm';
 import { AromaBottle } from '../../model/model';
@@ -8,16 +9,15 @@ import { AromaBottle } from '../../model/model';
   styleUrls: ['./aroma-manager.component.scss']
 })
 export class AromaManagerComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'liquid', 'mixing', 'price'];
-  aromaBottles: Observable<AromaBottle[]>;
+  displayedColumns: string[] = ['liquid', 'size', 'level', 'mixing', 'price', 'price_per_hun', 'delete'];
+  faTrash = faTrash;
+  @Input()
+  bottles: AromaBottle[];
+  @Output()
+  delete = new EventEmitter<number>();
   constructor() { }
 
   ngOnInit(): void {
-    this.updateAromaBottles();
   }
-  updateAromaBottles() {
-    this.aromaBottles = from(getRepository(AromaBottle)
-      .createQueryBuilder("aroma_bottle")
-      .getMany());
-  }
+
 }

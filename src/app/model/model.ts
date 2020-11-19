@@ -1,6 +1,7 @@
-import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, Index, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 @Entity({ name: 'producer' })
+@Unique(['name'])
 export class Producer extends BaseEntity {
 
   @PrimaryGeneratedColumn()
@@ -13,6 +14,7 @@ export class Producer extends BaseEntity {
 
 }
 @Entity({ name: 'aroma' })
+@Unique(['producer', 'name'])
 export class Aroma extends BaseEntity {
 
   @PrimaryGeneratedColumn()

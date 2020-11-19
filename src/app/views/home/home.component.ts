@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { faCog, faFlask, faPlus, faQuestion } from '@fortawesome/free-solid-svg-icons';
+import { Aroma, AromaBottle } from '../../model/model';
+import { DatabaseService } from '../../services/database.service';
+import { NewBottleComponent } from './components/new-bottle/new-bottle.component';
 
 @Component({
   selector: 'app-home',
@@ -11,9 +15,27 @@ export class HomeComponent implements OnInit {
   faCog = faCog;
   faQuest = faQuestion;
   faFlask = faFlask;
-  constructor() { }
+  aromas: Aroma[] ;
+  bottles: AromaBottle[] ;
+  constructor(private dialog: MatDialog, private db: DatabaseService) { }
 
   ngOnInit(): void {
+    this.db.getAromas.subscribe(aromas => this.aromas = aromas);
+    this.db.getAromaBottles.subscribe(bottles => this.bottles = bottles);
+    this.db.updateAromas();
+    this.db.updateAromaBottles();
   }
-
+  deleteBottle(id: number): void {
+    this.db.deleteAromaBottle(id);
+  }
+  openNewBottleDialog(): void {
+    const dialogRef = this.dialog.open(NewBottleComponent, {
+      width: '20rem',
+      data: this.aromas
+    });
+    dialogRef.afterClosed().subscribe((result: AromaBottle) => {
+      if (result)
+        this.db.addNewAromaBottle(result.price, result.liquidLevel, result.bottleSize, result.aroma);
+    });
+  }
 }
