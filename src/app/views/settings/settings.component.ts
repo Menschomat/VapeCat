@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faPlus, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Aroma, Producer } from '../..//model/model';
-import { DatabaseService } from '../..//services/database.service';
-import { Connection, getConnection, getRepository } from 'typeorm';
+import { getConnection, getRepository } from 'typeorm';
 import { from, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { NewProducerComponent } from './components/new-producer/new-producer.component';
 import { NewAromaComponent } from './components/new-aroma/new-aroma.component';
+import { ThisReceiver } from '@angular/compiler';
+import { DatabaseService } from '../../services/database.service';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -18,14 +19,22 @@ export class SettingsComponent implements OnInit {
   faTimes = faTimes;
   faPlus = faPlus;
   faTrash = faTrash;
-  producers: Observable<Producer[]>
-  aromas: Observable<Aroma[]>
+  producers: Producer[];
+  aromas: Aroma[];
+  producerRelated: number[];
+  aromaCols: string[] = ['id', 'name', 'aromaPercent', 'producer', 'delete'];
   producerCols: string[] = ['id', 'name', 'delete'];
-  constructor(private dialog: MatDialog, private router: Router) { }
+  constructor(private dialog: MatDialog, private router: Router, private db: DatabaseService) { }
 
   ngOnInit(): void {
-    this.updateProducers();
+    this.db.getProducerRelated.subscribe(nums => this.producerRelated = nums);
+    this.db.getAromas.subscribe(aromas => this.aromas = aromas);
+    this.db.getProducers.subscribe(producers => this.producers = producers);
+    this.db.updateAromas();
+    this.db.updateProducers();
+
   }
+
   close() {
     this.router.navigateByUrl("/home")
   }
@@ -35,7 +44,7 @@ export class SettingsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result)
-        this.addNewProducer(result)
+        this.db.addNewProducer(result)
     });
   }
   openAromaDialog(): void {
@@ -45,47 +54,17 @@ export class SettingsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result)
-        this.addNewAroma(result.name,result.mix,result.producer)
+        this.db.addNewAroma(result.name, result.mix, result.producer)
     });
   }
-  addNewProducer(name: string) {
-    getConnection().createQueryBuilder()
-      .insert()
-      .into(Producer)
-      .values({
-        name: name
-      })
-      .execute().then(() => this.updateProducers());
+
+  deleteAroma(id: number) {
+    this.db.deleteAroma(id);
   }
-  addNewAroma(name: string, mix: number, producer: Producer) {
-    getConnection().createQueryBuilder()
-      .insert()
-      .into(Aroma)
-      .values({
-        name: name,
-        aromaPercent: mix,
-        producer: producer
-      })
-      .execute().then(() => this.updateAromas());
+  deleteProducter(id: number) {
+    this.db.deleteProducter(id);
   }
 
-  deleteProducter(id: number) {
-    getConnection()
-      .createQueryBuilder()
-      .delete()
-      .from(Producer)
-      .where("id = :id", { id: id })
-      .execute().then(() => this.updateProducers());;
-  }
-  updateProducers(): void {
-    this.producers = from(getRepository(Producer)
-      .createQueryBuilder("producer")
-      .getMany());
-  }
-  updateAromas(): void {
-    this.aromas = from(getRepository(Aroma)
-      .createQueryBuilder("aroma")
-      .getMany());
-  }
+
 
 }

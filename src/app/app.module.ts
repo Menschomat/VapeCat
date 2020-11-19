@@ -26,6 +26,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NewAromaComponent } from './views/settings/components/new-aroma/new-aroma.component';
 import { NewProducerComponent } from './views/settings/components/new-producer/new-producer.component';
+import { NewBottleComponent } from './views/home/components/new-bottle/new-bottle.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { NewProducerComponent } from './views/settings/components/new-producer/n
     SettingsComponent,
     FrameControllerComponent,
     NewAromaComponent,
-    NewProducerComponent
+    NewProducerComponent,
+    NewBottleComponent
   ],
   imports: [
     BrowserModule,
