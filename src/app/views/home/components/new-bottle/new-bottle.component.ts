@@ -17,8 +17,8 @@ export class NewBottleComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       price: [null, [Validators.required,]],
-      bottleSize: [null, [Validators.required,]],
-      liquidLevel: [null, [Validators.required,]],
+      size: [null, [Validators.required,]],
+      level: [null, [Validators.required,]],
       aroma: [null, Validators.required],
     });
   }

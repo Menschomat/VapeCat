@@ -74,13 +74,18 @@ export class DatabaseService {
         .execute().then(() => this.updateAromas());
     });
   }
-  addNewAromaBottle(price: number, liquidLevel: number, bottleSize: number, aroma: Aroma) {
+  updateAromaBottle(bottle: AromaBottle) {
+    this.connection.then(c => {
+      c.getRepository(AromaBottle).save(bottle).then(() => this.updateAromaBottles());
+    })
+  }
+  addNewAromaBottle(price: number, level: number, size: number, aroma: Aroma) {
     this.connection.then(c => {
       c.createQueryBuilder()
         .insert()
         .into(AromaBottle)
         .values({
-          price, liquidLevel, bottleSize, aroma
+          price, level, size, aroma
         })
         .execute().then(() => this.updateAromaBottles());
     });

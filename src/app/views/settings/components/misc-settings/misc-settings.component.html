@@ -1,0 +1,45 @@
+<div style="display:flex;">
+  <mat-form-field color="accent" style="width: 50%;  margin-right: 0.5rem;">
+    <mat-label>Default Bottlesize (Liquid)</mat-label>
+    <input type="number" matInput [(ngModel)]="settings.settings.defaultBottleSize" (blur)="settings.save()">
+    <p matSuffix>ml</p>
+  </mat-form-field>
+  <mat-form-field color="accent" style="width: 50%;">
+    <mat-label>Nicotin Yield (Liquid)</mat-label>
+    <input type="number" matInput [(ngModel)]="settings.settings.nicotinStrength" (blur)="settings.save()">
+    <p matSuffix>mg/ml</p>
+  </mat-form-field>
+</div>
+<div style="flex:1; display:flex;">
+  <div style="flex: 1; display: flex; flex-direction: column; margin-right: 0.5rem;">
+    <h5>Base</h5>
+    <mat-form-field color="accent" style="width: 100%;">
+      <mat-label>Bottle-Size</mat-label>
+      <input type="number" matInput [(ngModel)]="settings.settings.defaultBase.size" (blur)="settings.save()">
+      <p matSuffix>ml</p>
+    </mat-form-field>
+    <mat-form-field color="accent" style="width: 100%;">
+      <mat-label>Price</mat-label>
+      <input type="number" matInput [(ngModel)]="settings.settings.defaultBase.price" (blur)="settings.save()">
+      <p matSuffix>€</p>
+    </mat-form-field>
+  </div>
+  <div style="flex: 1; display: flex; flex-direction: column;">
+    <h5>Nicotin-Shot</h5>
+    <mat-form-field color="accent" style="width: 100%;">
+      <mat-label>Bottle-Size</mat-label>
+      <input type="number" matInput [(ngModel)]="settings.settings.defaultShot.size" (blur)="settings.save()">
+      <p matSuffix>ml</p>
+    </mat-form-field>
+    <mat-form-field color="accent" style="width: 100%;">
+      <mat-label>Price</mat-label>
+      <input type="number" matInput [(ngModel)]="settings.settings.defaultShot.price" (blur)="settings.save()">
+      <p matSuffix>€</p>
+    </mat-form-field>
+    <mat-form-field color="accent" style="width: 100%;">
+      <mat-label>Nicotin Yield</mat-label>
+      <input type="number" matInput [(ngModel)]="settings.settings.defaultShot.nicotinLevel" (blur)="settings.save()">
+      <p matSuffix>mg/ml</p>
+    </mat-form-field>
+  </div>
+</div>

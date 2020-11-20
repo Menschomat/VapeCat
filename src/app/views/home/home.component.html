@@ -10,7 +10,7 @@
   </button>
 </mat-toolbar>
 <div style="height: calc(100% - 2rem); width: 100%; display: flex;">
-  <div style="flex: 1; display: flex; flex-direction: column;">
+  <div style="flex: 2; display: flex; flex-direction: column;">
     <mat-card style="flex: 1; display: flex; flex-direction: column;min-height: 0px;">
       <mat-card-header>
         <mat-card-title>
@@ -32,17 +32,17 @@
     </mat-card>
   </div>
   <div style="display: flex; flex-direction: column;">
-    <mat-card style="flex:1; display: flex; flex-direction: column; max-height: 20rem;">
+    <mat-card style="flex:1; display: flex; flex-direction: column; max-height: 25rem;  position: relative;">
       <mat-card-header>
         <mat-card-title>
-          Liquid-Calc
+          Calculator
         </mat-card-title>
         <mat-card-subtitle>
           Mix it!
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content style="flex: 1; ">
-        <app-liquid-calc></app-liquid-calc>
+        <app-liquid-calc (updateAroma)="updateAroma($event)"></app-liquid-calc>
       </mat-card-content>
     </mat-card>
 

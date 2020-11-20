@@ -30,6 +30,7 @@ import { NewBottleComponent } from './views/home/components/new-bottle/new-bottl
 
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
+import { MiscSettingsComponent } from './views/settings/components/misc-settings/misc-settings.component';
 registerLocaleData(localeDe);
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ registerLocaleData(localeDe);
     FrameControllerComponent,
     NewAromaComponent,
     NewProducerComponent,
-    NewBottleComponent
+    NewBottleComponent,
+    MiscSettingsComponent
   ],
   imports: [
     BrowserModule,

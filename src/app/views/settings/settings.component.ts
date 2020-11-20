@@ -9,6 +9,7 @@ import { NewProducerComponent } from './components/new-producer/new-producer.com
 import { NewAromaComponent } from './components/new-aroma/new-aroma.component';
 import { ThisReceiver } from '@angular/compiler';
 import { DatabaseService } from '../../services/database.service';
+import { SettingsService } from '../../services/settings.service';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',

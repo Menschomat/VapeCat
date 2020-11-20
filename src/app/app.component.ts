@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { faCat, faCog, faFlask, faQuestion } from '@fortawesome/free-solid-svg-icons';
+import { faCat } from '@fortawesome/free-solid-svg-icons';
 import { ElectronService } from './electron/electron.service';
 import { DatabaseService } from './services/database.service';
+import { SettingsService } from './services/settings.service';
 import { SettingsComponent } from './views/settings/settings.component';
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ export class AppComponent {
   isMac = false;
   faCat = faCat;
 
-  constructor(private db: DatabaseService, private electron: ElectronService, public dialog: MatDialog) {
+  constructor(private electron: ElectronService, private db: DatabaseService, private settings: SettingsService, public dialog: MatDialog) {
     console.log(this.electron.platform);
     this.isMac = (this.electron.platform === electron.platforms.MAC);
   }

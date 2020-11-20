@@ -1,4 +1,21 @@
-import { BaseEntity, Column, Entity, Index, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+
+export interface Settings {
+  nicotinStrength: number,
+  defaultBottleSize: number,
+  defaultBase: Bottle,
+  defaultShot?: NicotinBottle
+}
+
+export interface NicotinBottle extends Bottle {
+  nicotinLevel: number
+
+}
+export interface Bottle {
+  size: number,
+  level?: number,
+  price: number
+}
 
 @Entity({ name: 'producer' })
 @Unique(['name'])
@@ -34,7 +51,7 @@ export class Aroma extends BaseEntity {
 
 }
 @Entity({ name: 'aroma_bottle' })
-export class AromaBottle extends BaseEntity {
+export class AromaBottle extends BaseEntity implements Bottle {
 
   @PrimaryGeneratedColumn()
   id: number;
@@ -43,10 +60,10 @@ export class AromaBottle extends BaseEntity {
   price: number;
 
   @Column()
-  bottleSize: number;
+  size: number;
 
   @Column()
-  liquidLevel: number;
+  level: number;
 
   @ManyToOne(() => Aroma, aroma => aroma.bottles)
   aroma: Aroma;

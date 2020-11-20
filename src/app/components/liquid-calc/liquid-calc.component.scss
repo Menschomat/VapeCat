@@ -1,6 +1,10 @@
 :host {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+ 
+}
 
-}mat-form-field {
-  width: 7rem;
+mat-form-field {
+  width: 10rem;
 }

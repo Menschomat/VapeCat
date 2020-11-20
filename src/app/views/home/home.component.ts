@@ -15,8 +15,8 @@ export class HomeComponent implements OnInit {
   faCog = faCog;
   faQuest = faQuestion;
   faFlask = faFlask;
-  aromas: Aroma[] ;
-  bottles: AromaBottle[] ;
+  aromas: Aroma[];
+  bottles: AromaBottle[];
   constructor(private dialog: MatDialog, private db: DatabaseService) { }
 
   ngOnInit(): void {
@@ -28,6 +28,9 @@ export class HomeComponent implements OnInit {
   deleteBottle(id: number): void {
     this.db.deleteAromaBottle(id);
   }
+  updateAroma(aroma: AromaBottle) {
+    this.db.updateAromaBottle(aroma);
+  }
   openNewBottleDialog(): void {
     const dialogRef = this.dialog.open(NewBottleComponent, {
       width: '20rem',
@@ -35,7 +38,7 @@ export class HomeComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: AromaBottle) => {
       if (result)
-        this.db.addNewAromaBottle(result.price, result.liquidLevel, result.bottleSize, result.aroma);
+        this.db.addNewAromaBottle(result.price, result.level, result.size, result.aroma);
     });
   }
 }

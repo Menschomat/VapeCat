@@ -1,3 +1,10 @@
+<h4 *ngIf="currentBottle"
+  style="position:absolute; top: 1rem; right: 1rem; text-align: center; z-index: 100; text-align: center; border-radius: 0.5rem; background-color: rgba(0, 0, 0, 0.26); padding: .2rem .5rem;">
+  {{currentBottle.aroma.producer.name}}
+  {{currentBottle.aroma.name}} <fa-icon [icon]="faTimes" style="cursor: pointer;" (click)="currentBottle = undefined">
+  </fa-icon>
+</h4>
+
 <div style="display: flex; height: 100%;">
   <div style="flex: 1; padding-right: 1rem; display: flex; align-items: center;">
     <div style="padding-bottom: 1rem; padding-right: 0.5rem; min-width: 8rem;">
@@ -14,15 +21,21 @@
           <td>Aroma:</td>
           <td>{{liquidMix?.aroma}}ml</td>
         </tr>
+        <tr *ngIf="currentBottle">
+          <td>Preis:</td>
+          <td>€</td>
+        </tr>
       </table>
     </div>
-    <div #bottle
-      style=" background-color: black; width: 2rem; height: 100%; border-radius: 0.5rem; position: relative; overflow: hidden; ">
-      <div #base style="background-color: rgba(141, 235, 179, 0.753); text-align: center;">
-      </div>
-      <div #nicotin style="background-color: rgba(0, 255, 255, 0.5); text-align: center; ">
-      </div>
-      <div #aroma style="background-color: #70309b; text-align: center;">
+    <div style="height: 100%;">
+      <div #bottle
+        style=" background-color: black; width: 2rem; height: 100%; border-radius: 0.5rem; position: relative; overflow: hidden; ">
+        <div #base style="background-color: rgba(141, 235, 179, 0.753); text-align: center;">
+        </div>
+        <div #nicotin style="background-color: rgba(0, 255, 255, 0.5); text-align: center; ">
+        </div>
+        <div #aroma style="background-color: #70309b; text-align: center;">
+        </div>
       </div>
     </div>
   </div>
@@ -30,27 +43,30 @@
 
     <mat-form-field color="accent">
       <mat-label>Bottle-Size</mat-label>
-      <input [(ngModel)]="bottleSize" (ngModelChange)="updateLiquid()" matInput type="number" placeholder="Ex. Pizza"
-        value="Sushi">
+      <input [(ngModel)]="bottleSize" (ngModelChange)="updateLiquid()" matInput type="number">
       <p matSuffix>ml</p>
     </mat-form-field>
     <mat-form-field color="accent">
       <mat-label>Aroma</mat-label>
-      <input [(ngModel)]="aromaPercent" (ngModelChange)="updateLiquid()" matInput type="number" placeholder="Ex. Pizza"
-        value="Sushi">
+      <input [(ngModel)]="aromaPercent" (ngModelChange)="updateLiquid();" matInput
+        type="number">
       <p matSuffix>%</p>
     </mat-form-field>
     <mat-form-field color="accent">
       <mat-label>Nicotin in Liquid</mat-label>
-      <input [(ngModel)]="liquidStrength" (ngModelChange)="updateLiquid()" matInput type="number"
-        placeholder="Ex. Pizza" value="Sushi">
+      <input [(ngModel)]="liquidStrength" (ngModelChange)="updateLiquid()" matInput type="number">
       <p matSuffix>mg/ml</p>
     </mat-form-field>
     <mat-form-field color="accent">
       <mat-label>Nicotin in Shot</mat-label>
-      <input [(ngModel)]="shotStrength" (ngModelChange)="updateLiquid()" matInput type="number" placeholder="Ex. Pizza"
-        value="Sushi">
+      <input [(ngModel)]="shotStrength" (ngModelChange)="updateLiquid()" matInput type="number">
       <p matSuffix>mg/ml</p>
     </mat-form-field>
+    <button mat-raised-button color="accent" [disabled]="!currentBottle || currentBottle.level < liquidMix.aroma"
+      (click)="mixeIt(currentBottle)">
+      <div *ngIf="currentBottle && currentBottle.level >= liquidMix.aroma">Mixed it!</div>
+      <div *ngIf="!currentBottle">Not Aroma</div>
+      <div *ngIf="currentBottle && currentBottle.level < liquidMix.aroma">Not enough Aroma!</div>
+    </button>
   </div>
 </div>
