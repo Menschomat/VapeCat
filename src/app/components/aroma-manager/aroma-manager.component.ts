@@ -40,7 +40,7 @@ export class AromaManagerComponent implements OnInit {
     let shot_price = 0
     let shot_ml = 0
     if (shot.nicotinLevel > 0 && this.settings.settings.nicotinStrength > 0 && shot.size > 0) {
-      shot_ml = bottle_size / (shot.nicotinLevel / this.settings.settings.nicotinStrength);
+      shot_ml = (bottle_size * this.settings.settings.nicotinStrength) / (shot.nicotinLevel);
       shot_price = (shot.price / shot.size) * shot_ml;
     }
     const base_ml = bottle_size - shot_ml - aroma_ml;

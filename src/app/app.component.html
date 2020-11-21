@@ -1,4 +1,4 @@
-<mat-toolbar style="height: 2rem;  overflow: hidden;">
+<mat-toolbar style="height: 2rem;  overflow: hidden; align-items: flex-end;">
   <span style="flex:1" *ngIf="isMac"></span>
   <span>
     <fa-icon [icon]="faCat"></fa-icon> VapeCat
@@ -6,6 +6,9 @@
   <span style="flex:1" *ngIf="!isMac"></span>
   <app-frame-controller *ngIf="!isMac"></app-frame-controller>
 </mat-toolbar>
-<div style="height: calc(100% - 2rem); overflow: auto;">
+<div style="height: calc(100% - 3rem); overflow: auto;">
   <router-outlet></router-outlet>
 </div>
+<mat-toolbar style="height: 1rem;  overflow: hidden; align-items: flex-end; background-color: black; font-size: 0.85rem;">
+  <span style="line-height: 1rem;">©&nbsp;2020&nbsp;Mensch0mat&nbsp;-&nbsp;{{version}}</span>
+</mat-toolbar>

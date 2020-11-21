@@ -14,10 +14,12 @@ export class AppComponent {
   title = 'VapeCat';
   isMac = false;
   faCat = faCat;
+  version = "";
 
   constructor(private electron: ElectronService, private db: DatabaseService, private settings: SettingsService, public dialog: MatDialog) {
     console.log(this.electron.platform);
     this.isMac = (this.electron.platform === electron.platforms.MAC);
+    this.version = this.electron.remote.app.getVersion();
   }
   openSettings(): void {
     const dialogRef = this.dialog.open(SettingsComponent, {

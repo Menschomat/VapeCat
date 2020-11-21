@@ -9,8 +9,8 @@ const args = process.argv.slice(1),
 function createWindow(): BrowserWindow {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 1000,
-    height: 600,
+    width: 1100,
+    height: 700,
     titleBarStyle: 'hidden',
     frame: false,
 
