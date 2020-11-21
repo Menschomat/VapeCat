@@ -20,7 +20,9 @@ export class LiquidCalcComponent implements AfterViewInit {
   shotStrength = 20;
   liquidStrength = 0;
   liquidMix: LiquidMix;
-  currentBottle: AromaBottle;
+  currentBottles: AromaBottle[];
+  bottleUsage: { id: number, amount: number, price: number }[] = [];
+  price: number;
 
   @Output()
   updateAroma = new EventEmitter<AromaBottle>();
@@ -35,15 +37,16 @@ export class LiquidCalcComponent implements AfterViewInit {
 
   ngOnInit(): void {
     this.calc.calculate.subscribe(res => {
-      if (res) {
+      if (res && res.length > 0) {
         this.bottleSize = this.settings.settings.defaultBottleSize;
-        this.aromaPercent = res.aroma.aromaPercent;
+        this.aromaPercent = res[0].aroma.aromaPercent;
         this.shotStrength = this.settings.settings.defaultShot.nicotinLevel ? this.settings.settings.defaultShot.nicotinLevel : 0;
         this.liquidStrength = this.settings.settings.nicotinStrength ? this.settings.settings.nicotinStrength : 0;
-        this.currentBottle = res;
-        console.log(res);
-
+        this.currentBottles = res;
         this.updateLiquid();
+      }
+      else {
+        this.currentBottles = undefined;
       }
     })
   }
@@ -64,6 +67,14 @@ export class LiquidCalcComponent implements AfterViewInit {
     else
       this.renderer.setStyle(this.nicotinEl.nativeElement, "height", `0%`);
     this.renderer.setStyle(this.aromaEl.nativeElement, "height", `${this.liquidMix.aroma / (this.bottleSize / 100)}%`);
+    if (this.currentBottles && this.currentBottles.length > 0) {
+      this.bottleUsage = this.calcMix();
+      this.price = this.calcAromaPrice() +
+        this.settings.settings.defaultBase.price / this.settings.settings.defaultBase.size * this.liquidMix.base;
+      if (this.settings.settings.defaultShot?.price && this.settings.settings.defaultShot?.size) {
+        this.price += this.settings.settings.defaultShot?.price / this.settings.settings.defaultShot?.size * this.liquidMix.nicotin;
+      }
+    }
   }
   calculateLiquid(aromaPercent: number, bottleSize: number, shotStrength?: number, liquidStrength?: number): LiquidMix {
     const out = {} as LiquidMix;
@@ -75,11 +86,54 @@ export class LiquidCalcComponent implements AfterViewInit {
     }
     return out;
   }
-  mixeIt(bottle: AromaBottle) {
-    if (bottle.level >= this.liquidMix?.aroma) {
-      bottle.level -= this.liquidMix.aroma;
-      this.updateAroma.emit(bottle);
+  mixeIt() {
+    if (this.bootlesLevel >= this.liquidMix?.aroma) {
+      this.bottleUsage.forEach(b => {
+        const bottle = this.currentBottles.find(bottle => bottle.id === b.id)
+        bottle.level -= b.amount;
+        this.updateAroma.emit(bottle);
+      })
     }
+
+
+  }
+  get bootlesLevel(): number {
+    let out = 0;
+    this.currentBottles.forEach(b => out += b.level)
+    return out;
+  }
+
+  calcMix(): { id: number, amount: number, price: number }[] {
+    const out: { id: number, amount: number, price: number }[] = [];
+    if (this.bootlesLevel >= this.liquidMix?.aroma) {
+      this.currentBottles.sort((a, b) => (a.level > b.level) ? 1 : -1);
+      let toSubs = this.liquidMix.aroma;
+      this.currentBottles.forEach(
+        bottle => {
+          if (bottle.level >= toSubs) {
+            out.push({
+              id: bottle.id,
+              amount: toSubs,
+              price: bottle.price / bottle.size * toSubs
+
+            });
+            toSubs = 0;
+          } else {
+            out.push({
+              id: bottle.id,
+              amount: bottle.level,
+              price: bottle.price / bottle.size * bottle.level
+            })
+            toSubs -= bottle.level;
+          }
+          this.updateAroma.emit(bottle);
+        }
+      );
+    }
+    return out;
+  }
+  calcAromaPrice(): number {
+    return this.bottleUsage.reduce((sum: number, b: { id: number, amount: number, price: number }) => sum + b.price, 0);
   }
 
 }

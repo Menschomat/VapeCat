@@ -24,7 +24,10 @@ export class AromaManagerComponent implements OnInit {
   ngOnInit(): void {
   }
   calcLqiuid(bottle: AromaBottle) {
-    this.calc.calculate.next(bottle);
+    this.calc.calculate.next(this.bottles.filter(b => b.aroma.id === bottle.aroma.id));
+  }
+  resetCalc() {
+    this.calc.calculate.next(undefined);
   }
   calculatePricePerDefault(bottle: AromaBottle) {
     const aroma_percent = bottle.aroma.aromaPercent;
@@ -47,6 +50,9 @@ export class AromaManagerComponent implements OnInit {
   }
   get bottleSize(): number {
     return this.settings.settings.defaultBottleSize;
+  }
+  get tableContent(): { bottles: AromaBottle[] }[] {
+    return null;
   }
 
 }

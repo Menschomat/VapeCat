@@ -1,3 +1,4 @@
+import { isDevMode } from '@angular/core';
 import * as path from 'path';
 
 export class Settings {
@@ -13,7 +14,9 @@ export class Settings {
     }
 
     private static getPaths(remote) {
-
+        if (isDevMode()) {
+            this.dbName = 'dev-database.db'
+        }
         this.dataSubFolder = '/';
         Settings.appPath = remote.app.getPath('userData');
 

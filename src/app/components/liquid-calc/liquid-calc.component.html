@@ -1,7 +1,8 @@
-<h4 *ngIf="currentBottle"
+<h4 *ngIf="currentBottles && currentBottles.length > 0"
   style="position:absolute; top: 1rem; right: 1rem; text-align: center; z-index: 100; text-align: center; border-radius: 0.5rem; background-color: rgba(0, 0, 0, 0.26); padding: .2rem .5rem;">
-  {{currentBottle.aroma.producer.name}}
-  {{currentBottle.aroma.name}} <fa-icon [icon]="faTimes" style="cursor: pointer;" (click)="currentBottle = undefined">
+  {{currentBottles[0].aroma.producer.name}}
+  {{currentBottles[0].aroma.name}} <fa-icon [icon]="faTimes" style="cursor: pointer;"
+    (click)="currentBottles = undefined">
   </fa-icon>
 </h4>
 
@@ -11,19 +12,19 @@
       <table>
         <tr>
           <td>Base:</td>
-          <td>{{liquidMix?.base}}ml</td>
+          <td>{{liquidMix?.base | number:'1.0-2':'de-DE'}}ml</td>
         </tr>
         <tr *ngIf="liquidMix?.nicotin">
           <td>Nicotin:</td>
-          <td>{{liquidMix?.nicotin}}ml</td>
+          <td>{{liquidMix?.nicotin | number:'1.0-2':'de-DE'}}ml</td>
         </tr>
         <tr>
           <td>Aroma:</td>
-          <td>{{liquidMix?.aroma}}ml</td>
+          <td>{{liquidMix?.aroma | number:'1.0-2':'de-DE'}}ml</td>
         </tr>
-        <tr *ngIf="currentBottle">
-          <td>Preis:</td>
-          <td>€</td>
+        <tr *ngIf="currentBottles && bootlesLevel >= liquidMix.aroma">
+          <td>Price:</td>
+          <td>{{price | number:'1.0-2':'de-DE'}}€</td>
         </tr>
       </table>
     </div>
@@ -48,8 +49,7 @@
     </mat-form-field>
     <mat-form-field color="accent">
       <mat-label>Aroma</mat-label>
-      <input [(ngModel)]="aromaPercent" (ngModelChange)="updateLiquid();" matInput
-        type="number">
+      <input [(ngModel)]="aromaPercent" (ngModelChange)="updateLiquid();" matInput type="number">
       <p matSuffix>%</p>
     </mat-form-field>
     <mat-form-field color="accent">
@@ -62,11 +62,11 @@
       <input [(ngModel)]="shotStrength" (ngModelChange)="updateLiquid()" matInput type="number">
       <p matSuffix>mg/ml</p>
     </mat-form-field>
-    <button mat-raised-button color="accent" [disabled]="!currentBottle || currentBottle.level < liquidMix.aroma"
-      (click)="mixeIt(currentBottle)">
-      <div *ngIf="currentBottle && currentBottle.level >= liquidMix.aroma">Mixed it!</div>
-      <div *ngIf="!currentBottle">Not Aroma</div>
-      <div *ngIf="currentBottle && currentBottle.level < liquidMix.aroma">Not enough Aroma!</div>
+    <button mat-raised-button color="accent" [disabled]="!currentBottles || bootlesLevel < liquidMix.aroma"
+      (click)="mixeIt()">
+      <div *ngIf="currentBottles && bootlesLevel >= liquidMix.aroma">Mixed it!</div>
+      <div *ngIf="!currentBottles">Not Aroma</div>
+      <div *ngIf="currentBottles && bootlesLevel < liquidMix.aroma">Not enough Aroma!</div>
     </button>
   </div>
 </div>

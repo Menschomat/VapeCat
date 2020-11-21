@@ -6,6 +6,6 @@ import { AromaBottle } from '../model/model';
   providedIn: 'root'
 })
 export class CalculationService {
-  public readonly calculate: Subject<AromaBottle> = new Subject()
+  public readonly calculate: Subject<AromaBottle[]> = new Subject()
   constructor() { }
 }
