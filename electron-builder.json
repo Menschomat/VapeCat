@@ -22,7 +22,9 @@
   "win": {
     "icon": "dist/assets/icons/win/icon.ico",
     "target": [
-      "portable"
+      "nsis",
+      "portable",
+      "msi"
     ]
   },
   "mac": {
