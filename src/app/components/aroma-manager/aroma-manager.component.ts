@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { faFlag, faFlask, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { AromaBottle, Settings } from '../../model/model';
+import { faFlask, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { AromaBottle } from '../../model/model';
+import { LiquidUtils } from '../../utils/LiquidUtils';
 import { SettingsService } from '../../services/settings.service';
 import { CalculationService } from '../../services/calculation.service';
 @Component({
@@ -30,23 +31,18 @@ export class AromaManagerComponent implements OnInit {
     this.calc.calculate.next(undefined);
   }
   calculatePricePerDefault(bottle: AromaBottle) {
-    const aroma_percent = bottle.aroma.aromaPercent;
     const bottle_size = this.settings.settings.defaultBottleSize;
     const base = this.settings.settings.defaultBase;
     const shot = this.settings.settings.defaultShot;
-    const aroma_price_per_ml = bottle.price / bottle.size;
-    const aroma_ml = (bottle_size / 100 * aroma_percent);
-    const aroma_price = aroma_ml * aroma_price_per_ml;
-    let shot_price = 0
-    let shot_ml = 0
-    if (shot.nicotinLevel > 0 && this.settings.settings.nicotinStrength > 0 && shot.size > 0) {
-      shot_ml = (bottle_size * this.settings.settings.nicotinStrength) / (shot.nicotinLevel);
-      shot_price = (shot.price / shot.size) * shot_ml;
-    }
-    const base_ml = bottle_size - shot_ml - aroma_ml;
-    const base_price = (base.price / base.size) * base_ml;
+    const reciepe = LiquidUtils.generateReciepe({
+      amount: bottle_size,
+      aromaBottles: [bottle],
+      base: base,
+      nicotinYield: this.settings.settings.nicotinStrength,
+      shot: shot
+    });
 
-    return aroma_price + shot_price + base_price;
+    return reciepe.price;
   }
   get bottleSize(): number {
     return this.settings.settings.defaultBottleSize;

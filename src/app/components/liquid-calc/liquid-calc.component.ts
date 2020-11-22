@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { AromaBottle } from '../../model/model';
+import { AromaBottle, Bottle } from '../../model/model';
 import { CalculationService } from '../../services/calculation.service'
 import { SettingsService } from '../../services/settings.service';
+import { LiquidRecipe, LiquidUtils, RecipeInput } from '../../utils/LiquidUtils';
 interface LiquidMix {
   nicotin: number;
   aroma: number;
@@ -19,10 +20,8 @@ export class LiquidCalcComponent implements AfterViewInit {
   aromaPercent = 5;
   shotStrength = 20;
   liquidStrength = 0;
-  liquidMix: LiquidMix;
+  reciept: LiquidRecipe;
   currentBottles: AromaBottle[];
-  bottleUsage: { id: number, amount: number, price: number }[] = [];
-  price: number;
 
   @Output()
   updateAroma = new EventEmitter<AromaBottle>();
@@ -55,26 +54,29 @@ export class LiquidCalcComponent implements AfterViewInit {
 
   }
   updateLiquid() {
-    this.liquidMix = this.calculateLiquid(
-      this.aromaPercent,
-      this.bottleSize,
-      this.shotStrength,
-      this.liquidStrength
-    );
-    this.renderer.setStyle(this.baseEl.nativeElement, "height", `${this.liquidMix.base / (this.bottleSize / 100)}%`);
-    if (this.liquidMix.nicotin)
-      this.renderer.setStyle(this.nicotinEl.nativeElement, "height", `${this.liquidMix.nicotin / (this.bottleSize / 100)}%`);
+    this.reciept = this.currentBottles ?
+      LiquidUtils.generateReciepe({
+        amount: this.bottleSize,
+        aromaBottles: this.currentBottles,
+        aromaPercent: this.aromaPercent,
+        base: this.settings.settings.defaultBase,
+        nicotinYield: this.liquidStrength,
+        shot: this.settings.settings.defaultShot
+      } as RecipeInput) :
+      LiquidUtils.generateReciepe({
+        amount: this.bottleSize,
+        aromaPercent: this.aromaPercent,
+        base: this.settings.settings.defaultBase,
+        nicotinYield: this.liquidStrength,
+        shot: this.settings.settings.defaultShot
+      } as RecipeInput);
+
+    this.renderer.setStyle(this.baseEl.nativeElement, "height", `${this.reciept.base / (this.bottleSize / 100)}%`);
+    if (this.reciept.shot)
+      this.renderer.setStyle(this.nicotinEl.nativeElement, "height", `${this.reciept.shot / (this.bottleSize / 100)}%`);
     else
       this.renderer.setStyle(this.nicotinEl.nativeElement, "height", `0%`);
-    this.renderer.setStyle(this.aromaEl.nativeElement, "height", `${this.liquidMix.aroma / (this.bottleSize / 100)}%`);
-    if (this.currentBottles && this.currentBottles.length > 0) {
-      this.bottleUsage = this.calcMix();
-      this.price = this.calcAromaPrice() +
-        this.settings.settings.defaultBase.price / this.settings.settings.defaultBase.size * this.liquidMix.base;
-      if (this.settings.settings.defaultShot?.price && this.settings.settings.defaultShot?.size) {
-        this.price += this.settings.settings.defaultShot?.price / this.settings.settings.defaultShot?.size * this.liquidMix.nicotin;
-      }
-    }
+    this.renderer.setStyle(this.aromaEl.nativeElement, "height", `${this.reciept.aroma / (this.bottleSize / 100)}%`);
   }
   calculateLiquid(aromaPercent: number, bottleSize: number, shotStrength?: number, liquidStrength?: number): LiquidMix {
     const out = {} as LiquidMix;
@@ -87,15 +89,13 @@ export class LiquidCalcComponent implements AfterViewInit {
     return out;
   }
   mixeIt() {
-    if (this.bootlesLevel >= this.liquidMix?.aroma) {
-      this.bottleUsage.forEach(b => {
+    if (this.reciept?.aromabottles && this.bootlesLevel >= this.reciept?.aromabottles.reduce((sum: number, a) => sum + a.amount, 0)) {
+      this.reciept.aromabottles.forEach(b => {
         const bottle = this.currentBottles.find(bottle => bottle.id === b.id)
         bottle.level -= b.amount;
         this.updateAroma.emit(bottle);
       })
     }
-
-
   }
   get bootlesLevel(): number {
     let out = 0;
@@ -103,37 +103,6 @@ export class LiquidCalcComponent implements AfterViewInit {
     return out;
   }
 
-  calcMix(): { id: number, amount: number, price: number }[] {
-    const out: { id: number, amount: number, price: number }[] = [];
-    if (this.bootlesLevel >= this.liquidMix?.aroma) {
-      this.currentBottles.sort((a, b) => (a.level > b.level) ? 1 : -1);
-      let toSubs = this.liquidMix.aroma;
-      this.currentBottles.forEach(
-        bottle => {
-          if (bottle.level >= toSubs) {
-            out.push({
-              id: bottle.id,
-              amount: toSubs,
-              price: bottle.price / bottle.size * toSubs
 
-            });
-            toSubs = 0;
-          } else {
-            out.push({
-              id: bottle.id,
-              amount: bottle.level,
-              price: bottle.price / bottle.size * bottle.level
-            })
-            toSubs -= bottle.level;
-          }
-          this.updateAroma.emit(bottle);
-        }
-      );
-    }
-    return out;
-  }
-  calcAromaPrice(): number {
-    return this.bottleUsage.reduce((sum: number, b: { id: number, amount: number, price: number }) => sum + b.price, 0);
-  }
 
 }

@@ -12,19 +12,19 @@
       <table>
         <tr>
           <td>Base:</td>
-          <td>{{liquidMix?.base | number:'1.0-2':'de-DE'}}ml</td>
+          <td>{{reciept?.base | number:'1.0-2':'de-DE'}}ml</td>
         </tr>
-        <tr *ngIf="liquidMix?.nicotin">
+        <tr *ngIf="reciept?.shot">
           <td>Nicotin:</td>
-          <td>{{liquidMix?.nicotin | number:'1.0-2':'de-DE'}}ml</td>
+          <td>{{reciept?.shot | number:'1.0-2':'de-DE'}}ml</td>
         </tr>
         <tr>
           <td>Aroma:</td>
-          <td>{{liquidMix?.aroma | number:'1.0-2':'de-DE'}}ml</td>
+          <td>{{reciept?.aroma | number:'1.0-2':'de-DE'}}ml</td>
         </tr>
-        <tr *ngIf="currentBottles && bootlesLevel >= liquidMix.aroma">
+        <tr *ngIf="currentBottles && bootlesLevel >= reciept.aroma">
           <td>Price:</td>
-          <td>{{price | number:'1.0-2':'de-DE'}}€</td>
+          <td>{{reciept.price | number:'1.0-2':'de-DE'}}€</td>
         </tr>
       </table>
     </div>
@@ -62,11 +62,11 @@
       <input [(ngModel)]="shotStrength" (ngModelChange)="updateLiquid()" matInput type="number">
       <p matSuffix>mg/ml</p>
     </mat-form-field>
-    <button mat-raised-button color="accent" [disabled]="!currentBottles || bootlesLevel < liquidMix.aroma"
+    <button mat-raised-button color="accent" [disabled]="!currentBottles || bootlesLevel < reciept.aroma"
       (click)="mixeIt()">
-      <div *ngIf="currentBottles && bootlesLevel >= liquidMix.aroma">Mixed it!</div>
+      <div *ngIf="currentBottles && bootlesLevel >= reciept.aroma">Mixed it!</div>
       <div *ngIf="!currentBottles">Not Aroma</div>
-      <div *ngIf="currentBottles && bootlesLevel < liquidMix.aroma">Not enough Aroma!</div>
+      <div *ngIf="currentBottles && bootlesLevel < reciept.aroma">Not enough Aroma!</div>
     </button>
   </div>
 </div>
