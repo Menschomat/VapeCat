@@ -1,5 +1,6 @@
 {
   "name": "vape-cat",
+  "author": "Mensch0mat",
   "version": "0.1.0-beta",
   "main": "main.js",
   "private": true,
