@@ -34,9 +34,11 @@ export class AromaManagerComponent implements OnInit {
     const bottle_size = this.settings.settings.defaultBottleSize;
     const base = this.settings.settings.defaultBase;
     const shot = this.settings.settings.defaultShot;
+    const fake_bottle: AromaBottle = JSON.parse(JSON.stringify(bottle));
+    fake_bottle.level = fake_bottle.size;
     const reciepe = LiquidUtils.generateReciepe({
       amount: bottle_size,
-      aromaBottles: [bottle],
+      aromaBottles: [fake_bottle],
       base: base,
       nicotinYield: this.settings.settings.nicotinStrength,
       shot: shot

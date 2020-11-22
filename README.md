@@ -1,27 +1,24 @@
-# VapeCat
+#  <img src="src/assets/icons/png/64x64.png" height="50px"> VapeCat
+VapeCat is the Swiss Army knife for Vapers. It's open-source, multiplatform (thanks to electron) and easy to use.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.1.
+Features:
+* Manage all your Aromas
+* Calculate prices
+* Calculate Liquid-Mixes
+* Relatime-Update your Aroma-Storage
+## Tooling
+<div style="width:100%; display:flex; justify-content: space-evenly;">
+<img src="assets/angular-logo.png" height="90px">
+<img src="assets/electron-logo.png" height="90px">
+<img src="assets/type-orm.png" height="90px">
+<img src="assets/sqlite-logo.png" height="90px">
+</div>
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
+## Development 
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Run `npm run electron:build` to build the project. The build artifacts will be stored in the `releases/` directory.
