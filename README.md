@@ -6,6 +6,9 @@ Features:
 * Calculate prices
 * Calculate Liquid-Mixes
 * Relatime-Update your Aroma-Storage
+
+<img src="assets/screen1.png" style="border-radius:0.25rem; box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);">
+
 ## Tooling
 <div style="width:100%; display:flex; justify-content: space-evenly;">
 <img src="assets/angular-logo.png" height="90px">
