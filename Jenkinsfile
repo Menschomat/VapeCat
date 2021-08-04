@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 pipeline {
   agent {
-    label "node"
+    docker{ image 'electronuserland/builder:wine' }
   }
   stages {
     stage('Initialize') {
