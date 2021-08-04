@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 pipeline {
   agent {
-    label "node"
+    label "docker"
   }
   stages {
     stage('Initialize') {
