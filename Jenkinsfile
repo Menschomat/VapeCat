@@ -20,15 +20,8 @@ pipeline {
       post {
         always {
           archiveArtifacts artifacts: 'release/*.msi, release/*.exe', fingerprint: true
-          junit 'target/surefire-reports/**/*.xml'
         }
       }
-      //post {
-      //  always {
-      //   archiveArtifacts artifacts: 'target/*.jar, target/*.exe', fingerprint: true
-      // junit 'target/surefire-reports/**/*.xml'
-      // }
-      //}
     }
   }
 }
