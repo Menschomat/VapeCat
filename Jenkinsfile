@@ -10,7 +10,9 @@ pipeline {
         sh '''
                 echo "Building Vapecat"
                 '''
+        sh 'sudo chown -R 1000:998 "/.npm"'
         sh 'npm install'
+
       }
     }
     stage('Build') {
